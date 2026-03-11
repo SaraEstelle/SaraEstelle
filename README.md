@@ -1,4 +1,7 @@
 ## Hi there 👋
+Future AI & Machine Learning engineer currently completing the Foundations program at Holberton School.
+Passionate about problem-solving, systems programming and data-driven technologies.
+📍 France | 📧 sararebati94@gmail.com
 <!-- GITHUB STATS SUR UNE LIGNE -->
 <h2 align="center">
   <span style="background: linear-gradient(90deg, #5b5555ff, #d1210aff); -webkit-background-clip: text; color: transparent;">
