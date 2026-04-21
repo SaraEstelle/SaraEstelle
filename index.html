@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sara Rebati — ML / IA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy2: #162030;
+    --coral: #e8614a;
+    --coral-light: #f2886f;
+    --gold: #c9a84c;
+    --cream: #f4f0e6;
+    --muted: #8a9ab0;
+    --border: rgba(255,255,255,0.08);
+    --card-bg: rgba(255,255,255,0.04);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(13,27,42,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--coral);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,160,80,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,160,80,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: absolute; top: 20%; right: 5%;
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,97,74,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { max-width: 780px; position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem; color: var(--coral);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 1.8rem;
+  }
+  .hero-tag::before {
+    content: ''; display: block;
+    width: 28px; height: 1px; background: var(--coral);
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.2rem, 7vw, 5.8rem);
+    line-height: 1.05;
+    margin-bottom: 1.2rem;
+    font-weight: 400;
+  }
+  h1 em { color: var(--coral); font-style: italic; }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted);
+    max-width: 520px; margin-bottom: 2.8rem;
+    line-height: 1.75;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    padding: 0.8rem 2rem;
+    background: var(--coral); color: white;
+    border: none; border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--coral-light); transform: translateY(-1px); }
+  .btn-outline {
+    padding: 0.8rem 2rem;
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .btn-outline:hover { border-color: var(--muted); transform: translateY(-1px); }
+
+  /* SECTIONS */
+  section { padding: 7rem 4rem; }
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--coral);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-tag::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--coral); }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+  .section-intro { color: var(--muted); max-width: 560px; margin-bottom: 3.5rem; }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: start;
+  }
+  .about-text p { color: var(--muted); margin-bottom: 1.2rem; }
+  .about-text strong { color: var(--cream); font-weight: 500; }
+  .skills-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  .skill-block {
+    padding: 1.2rem 1.4rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .skill-block h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--coral);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .skill-block p { font-size: 0.82rem; color: var(--muted); }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    padding: 2rem 2rem 1.6rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.25s, transform 0.2s;
+    position: relative; overflow: hidden;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: var(--coral);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .project-card:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-3px); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-lang {
+    display: inline-flex; gap: 0.4rem; flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; padding: 0.2rem 0.6rem;
+    border-radius: 3px; letter-spacing: 0.05em;
+  }
+  .tag-c { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+  .tag-py { background: rgba(59,130,246,0.1); color: #7dd3fc; border: 1px solid rgba(59,130,246,0.15); }
+  .tag-sql { background: rgba(168,85,247,0.1); color: #c4b5fd; border: 1px solid rgba(168,85,247,0.15); }
+  .tag-js { background: rgba(234,179,8,0.1); color: #fde047; border: 1px solid rgba(234,179,8,0.15); }
+  .tag-html { background: rgba(249,115,22,0.1); color: #fdba74; border: 1px solid rgba(249,115,22,0.15); }
+  .tag-ml { background: rgba(232,97,74,0.12); color: var(--coral-light); border: 1px solid rgba(232,97,74,0.2); }
+  .project-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; font-weight: 400;
+    margin-bottom: 0.6rem;
+  }
+  .project-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.2rem; }
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--coral);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none;
+  }
+  .project-link::after { content: ' →'; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item {
+    position: relative; padding: 0 0 2.4rem 2rem;
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -0.32rem; top: 0.35rem;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--coral);
+  }
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--coral);
+    letter-spacing: 0.1em; margin-bottom: 0.3rem;
+  }
+  .timeline-item h3 {
+    font-size: 0.95rem; font-weight: 500; margin-bottom: 0.2rem;
+  }
+  .timeline-item p { font-size: 0.83rem; color: var(--muted); }
+
+  /* CONTACT */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: center;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.9rem 1.2rem;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 6px; text-decoration: none; color: var(--cream);
+    transition: border-color 0.2s;
+    font-size: 0.88rem;
+  }
+  .contact-link:hover { border-color: var(--coral); }
+  .contact-link-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; color: var(--coral);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    min-width: 50px;
+  }
+  .contact-cta h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; font-weight: 400; margin-bottom: 1rem;
+  }
+  .contact-cta p { color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--muted);
+  }
+  footer span { color: var(--coral); }
+
+  /* FADE IN */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Sara Rebati</div>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#parcours">Parcours</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Disponible en alternance — Sept. 2026</div>
+    <h1>Sara<br><em>Rebati</em></h1>
+    <p class="hero-sub">
+      Développeuse & future ingénieure ML/IA.<br>
+      Docteure en Pharmacie × Holberton School × Données à impact réel.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">Voir les projets</a>
+      <a href="https://github.com/SaraEstelle" target="_blank" class="btn-outline">GitHub →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-tag">À propos</div>
+  <div class="about-grid fade-in">
+    <div class="about-text">
+      <h2>Scientifique.<br>Développeuse.<br><em style="color:var(--coral); font-family:'DM Serif Display',serif; font-style:italic;">Future ML engineer.</em></h2>
+      <p>
+        Profil hybride rare : <strong>Docteure en Pharmacie</strong> (Université d'Alger 1, mention Très Honorable),
+        reconvertie en développement logiciel intensif chez <strong>Holberton School</strong>,
+        avec une spécialisation Machine Learning & IA qui démarre en septembre 2026.
+      </p>
+      <p>
+        Ancienne co-fondatrice de deux structures d'innovation et cheffe de projets digitaux,
+        j'apporte une capacité d'analyse de données, une rigueur scientifique et une vision
+        métier que peu de profils techniques combinaient.
+      </p>
+      <p>
+        Je cherche une alternance ML/IA en région <strong>Rhône-Alpes / Haute-Savoie</strong>
+        pour concevoir des modèles fiables à fort impact opérationnel.
+      </p>
+    </div>
+    <div>
+      <div class="skills-grid">
+        <div class="skill-block">
+          <h4>Langages</h4>
+          <p>Python · C · JavaScript · SQL · HTML5 · CSS3 · Shell</p>
+        </div>
+        <div class="skill-block">
+          <h4>Data & ML</h4>
+          <p>Pandas · NumPy · scikit-learn · REST APIs · SQLite/MySQL</p>
+        </div>
+        <div class="skill-block">
+          <h4>DevOps</h4>
+          <p>Docker · Jenkins · Ansible · Git · Linux · GitHub</p>
+        </div>
+        <div class="skill-block">
+          <h4>Architecture</h4>
+          <p>OOP · MVC · REST · Flask · Design patterns · RBAC</p>
+        </div>
+        <div class="skill-block">
+          <h4>Méthodes</h4>
+          <p>Agile · Kanban · TDD · Peer learning · Code review</p>
+        </div>
+        <div class="skill-block">
+          <h4>Sciences</h4>
+          <p>Statistiques · Validation · Rigueur expérimentale · Pharma</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background: rgba(255,255,255,0.01); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-tag">Projets</div>
+  <h2>Ce que j'ai construit.</h2>
+  <p class="section-intro">Projets réalisés en formation Holberton et en autonomie, couvrant systèmes, web, data et automatisation.</p>
+  <div class="projects-grid fade-in">
+
+    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
+      <div class="project-lang">
+        <span class="tag tag-py">Python</span>
+        <span class="tag tag-sql">SQL</span>
+        <span class="tag tag-html">Flask</span>
+      </div>
+      <h3>AirBnB Clone (HBNB)</h3>
+      <p>Reproduction complète du fonctionnement d'AirBnB : modèle de données OOP, stockage fichier + MySQL, API RESTful Flask, interface web dynamique via JavaScript.</p>
+      <span class="project-link">Voir sur GitHub</span>
+    </a>
+
+    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
+      <div class="project-lang">
+        <span class="tag tag-c">C</span>
+      </div>
+      <h3>Simple Shell</h3>
+      <p>Interpréteur de commandes UNIX en C. Gestion des commandes, chemins PATH, variables d'environnement, signaux système et gestion des erreurs.</p>
+      <span class="project-link">Voir sur GitHub</span>
+    </a>
+
+    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
+      <div class="project-lang">
+        <span class="tag tag-c">C</span>
+      </div>
+      <h3>Printf — ft_printf</h3>
+      <p>Réimplémentation de la fonction printf standard en C. Gestion des spécificateurs %c %s %d %i %u %o %x %X, arguments variadiques et cas limites.</p>
+      <span class="project-link">Voir sur GitHub</span>
+    </a>
+
+    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
+      <div class="project-lang">
+        <span class="tag tag-py">Python</span>
+        <span class="tag tag-sql">SQL</span>
+      </div>
+      <h3>FLUXIVOLT — Automatisation commerciale</h3>
+      <p>Pipeline d'automatisation de la prospection e-mail, base de données clients structurée et module de génération de devis en ligne (VEE).</p>
+      <span class="project-link">Voir sur GitHub</span>
+    </a>
+
+    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
+      <div class="project-lang">
+        <span class="tag tag-html">HTML5</span>
+        <span class="tag tag-html">CSS3</span>
+        <span class="tag tag-js">JS</span>
+      </div>
+      <h3>Le Café Intergalactique des Castors</h3>
+      <p>Site web créatif : intégration responsive, animations CSS, structuration sémantique et bonnes pratiques d'accessibilité web.</p>
+      <span class="project-link">Voir sur GitHub</span>
+    </a>
+
+    <div class="project-card" style="border-style: dashed; cursor: default;">
+      <div class="project-lang">
+        <span class="tag tag-ml">ML</span>
+        <span class="tag tag-py">Python</span>
+        <span class="tag tag-sql">SQL</span>
+      </div>
+      <h3>PharmaInsight <span style="font-size:0.75rem; color: var(--muted); font-family:'DM Mono',monospace;">en cours</span></h3>
+      <p>Analyse de données médicales avec Python OOP + pandas + SQLite. Classification de patients, visualisation statistique. Pont entre la pharmacie et le ML.</p>
+      <span class="project-link" style="color: var(--muted);">Bientôt disponible</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- PARCOURS -->
+<section id="parcours">
+  <div class="section-tag">Parcours</div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;" class="fade-in">
+    <div>
+      <h2>Formation</h2>
+      <br>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">Sept. 2026 → 2027</div>
+          <h3>Spécialisation ML & IA — Holberton School</h3>
+          <p>Maths (algèbre, probabilités), Supervised/Unsupervised/Reinforcement Learning, NLP, CNN, MLOps, Data Pipeline, GCP.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Oct. 2025 → Juil. 2026</div>
+          <h3>Développeur Web & Mobile RNCP Niv.5 — Holberton School</h3>
+          <p>1200h : Python, C, SQL, JavaScript, HTML/CSS, Linux, Docker, Jenkins, Ansible.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2013 → 2018</div>
+          <h3>Doctorat d'État en Pharmacie — Université d'Alger 1</h3>
+          <p>Mention Très Honorable. Thèse : médicaments biosimilaires, exigences réglementaires de production.</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>Expérience</h2>
+      <br>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2024 → 2025</div>
+          <h3>Manager & Cheffe de Projet Digital — CASA SWITCH</h3>
+          <p>Pilotage d'une application mobile, stratégie digitale, suivi KPI.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024 → 2025</div>
+          <h3>Manager d'Incubateur — WOMWORK</h3>
+          <p>1er incubateur féminin d'Algérie. Formations, 50+ projets accompagnés, coopération Institut Français / PNUD.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2019 → 2025</div>
+          <h3>Responsable Projets — THE ANNEX</h3>
+          <p>Projets web et digitaux pour startups et PME.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2018 → 2019</div>
+          <h3>Chargée Qualité — FRATER RAZES</h3>
+          <p>Production pharmaceutique, contrôle qualité, biosimilaires.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: rgba(255,255,255,0.01); border-top: 1px solid var(--border);">
+  <div class="section-tag">Contact</div>
+  <div class="contact-grid fade-in">
+    <div class="contact-cta">
+      <h3>Travaillons<br><em style="color:var(--coral); font-family:'DM Serif Display',serif; font-style:italic;">ensemble.</em></h3>
+      <p>Je suis disponible en alternance ML/IA à partir de septembre 2026, en région Haute-Savoie / Rhône-Alpes. Ouverte à la discussion.</p>
+      <a href="mailto:sararebati94@gmail.com" class="btn-primary">Envoyer un email</a>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:sararebati94@gmail.com" class="contact-link">
+        <span class="contact-link-icon">Email</span>
+        sararebati94@gmail.com
+      </a>
+      <a href="tel:+33758369876" class="contact-link">
+        <span class="contact-link-icon">Tél.</span>
+        +33 7 58 36 98 76
+      </a>
+      <a href="https://github.com/SaraEstelle" target="_blank" class="contact-link">
+        <span class="contact-link-icon">GitHub</span>
+        github.com/SaraEstelle
+      </a>
+      <a href="https://linkedin.com/in/sararebati" target="_blank" class="contact-link">
+        <span class="contact-link-icon">LinkedIn</span>
+        linkedin.com/in/sararebati
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Sara Rebati</span>
+  <span>Thonon-les-Bains, France — <span style="color:var(--coral)">Disponible Sept. 2026</span></span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
