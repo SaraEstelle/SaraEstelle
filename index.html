@@ -3,540 +3,722 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sara Rebati — ML / IA</title>
+<title>Sara Rebati — Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #0d1b2a;
-    --navy2: #162030;
-    --coral: #e8614a;
-    --coral-light: #f2886f;
-    --gold: #c9a84c;
-    --cream: #f4f0e6;
-    --muted: #8a9ab0;
-    --border: rgba(255,255,255,0.08);
-    --card-bg: rgba(255,255,255,0.04);
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--navy);
-    color: var(--cream);
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
+:root {
+  --navy:#0d1b2a; --navy2:#101f30; --navy3:#152234;
+  --coral:#e8614a; --coral2:#f2886f;
+  --gold:#c9a84c; --gold2:#dfc070;
+  --cream:#f4f0e6; --muted:#7a8fa8; --muted2:#4a5f78;
+  --border:rgba(255,255,255,0.07); --border2:rgba(232,97,74,0.2);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--navy);color:var(--cream);font-family:'Inter',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;}
+#canvas-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.5;}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.2rem 4rem;
-    background: rgba(13,27,42,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--coral);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    color: var(--muted); text-decoration: none;
-    font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--cream); }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 4rem;background:rgba(13,27,42,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'DM Mono',monospace;font-size:0.82rem;color:var(--coral);letter-spacing:0.14em;text-transform:uppercase;display:flex;align-items:center;gap:0.6rem;}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--coral);animation:breathe 2s ease-in-out infinite;}
+@keyframes breathe{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.6);}}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;font-family:'DM Mono',monospace;}
+.nav-links a:hover{color:var(--cream);}
+.nav-avail{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--coral);}
+.nav-avail-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.8);animation:breathe 1.5s ease-in-out infinite;}
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex; align-items: center;
-    padding: 0 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-grid {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(200,160,80,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(200,160,80,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-  .hero-glow {
-    position: absolute; top: 20%; right: 5%;
-    width: 520px; height: 520px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,97,74,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-content { max-width: 780px; position: relative; z-index: 1; }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem; color: var(--coral);
-    letter-spacing: 0.14em; text-transform: uppercase;
-    margin-bottom: 1.8rem;
-  }
-  .hero-tag::before {
-    content: ''; display: block;
-    width: 28px; height: 1px; background: var(--coral);
-  }
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(3.2rem, 7vw, 5.8rem);
-    line-height: 1.05;
-    margin-bottom: 1.2rem;
-    font-weight: 400;
-  }
-  h1 em { color: var(--coral); font-style: italic; }
-  .hero-sub {
-    font-size: 1.05rem; color: var(--muted);
-    max-width: 520px; margin-bottom: 2.8rem;
-    line-height: 1.75;
-  }
-  .hero-cta {
-    display: flex; gap: 1rem; flex-wrap: wrap;
-  }
-  .btn-primary {
-    padding: 0.8rem 2rem;
-    background: var(--coral); color: white;
-    border: none; border-radius: 3px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.78rem; letter-spacing: 0.1em;
-    text-transform: uppercase; cursor: pointer;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .btn-primary:hover { background: var(--coral-light); transform: translateY(-1px); }
-  .btn-outline {
-    padding: 0.8rem 2rem;
-    background: transparent;
-    color: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.78rem; letter-spacing: 0.1em;
-    text-transform: uppercase; cursor: pointer;
-    text-decoration: none;
-    transition: border-color 0.2s, transform 0.15s;
-  }
-  .btn-outline:hover { border-color: var(--muted); transform: translateY(-1px); }
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding:0 4rem;position:relative;z-index:1;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;}
+.glow-a{position:absolute;top:15%;right:8%;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(232,97,74,0.09) 0%,transparent 65%);pointer-events:none;animation:gpulse 6s ease-in-out infinite;}
+.glow-b{position:absolute;bottom:0;left:-5%;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 65%);pointer-events:none;animation:gpulse 8s ease-in-out infinite reverse;}
+@keyframes gpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
+.shape{position:absolute;pointer-events:none;border:1px solid rgba(232,97,74,0.1);border-radius:50%;animation:fshape 12s ease-in-out infinite;}
+.s1{width:190px;height:190px;top:13%;right:14%;animation-delay:-3s;}
+.s2{width:110px;height:110px;bottom:18%;right:6%;animation-delay:-7s;}
+.s3{width:70px;height:70px;bottom:12%;right:23%;animation-delay:-2s;border-color:rgba(201,168,76,0.12);}
+@keyframes fshape{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-16px) rotate(8deg);}}
+.hero-content{position:relative;z-index:1;max-width:800px;}
+.eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;}
+.eyebrow-line{width:34px;height:1px;background:var(--coral);}
+.eyebrow-txt{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--coral);letter-spacing:0.2em;text-transform:uppercase;}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(3.8rem,9vw,7rem);line-height:0.95;font-weight:400;letter-spacing:-0.01em;margin-bottom:0.5rem;}
+h1 em{color:var(--coral);font-style:italic;display:block;}
+.hero-sub{font-family:'DM Serif Display',serif;font-size:clamp(1rem,2.2vw,1.4rem);color:var(--muted);font-style:italic;margin-bottom:1.8rem;}
+.badges{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:2.2rem;}
+.badge{display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.68rem;padding:0.32rem 0.85rem;border-radius:3px;letter-spacing:0.06em;transition:transform 0.2s;}
+.badge:hover{transform:translateY(-2px);}
+.b-ph{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold2);}
+.b-dv{background:rgba(232,97,74,0.1);border:1px solid rgba(232,97,74,0.25);color:var(--coral2);}
+.b-st{background:rgba(99,179,237,0.08);border:1px solid rgba(99,179,237,0.2);color:#90cdf4;}
+.hero-desc{font-size:0.97rem;color:var(--muted);max-width:500px;margin-bottom:2.2rem;line-height:1.8;}
+.hero-desc strong{color:var(--cream);font-weight:500;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;}
+.btn-c{font-family:'DM Mono',monospace;font-size:0.74rem;padding:0.82rem 1.8rem;background:var(--coral);color:white;border:none;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background 0.2s,transform 0.15s,box-shadow 0.2s;}
+.btn-c:hover{background:var(--coral2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,97,74,0.3);color:white;}
+.btn-o{font-family:'DM Mono',monospace;font-size:0.74rem;padding:0.82rem 1.8rem;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:border-color 0.2s,color 0.2s,transform 0.15s;}
+.btn-o:hover{border-color:var(--muted);color:var(--cream);transform:translateY(-2px);}
+.cv-btns{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.2rem;}
+.btn-cv{display:inline-flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.68rem;padding:0.55rem 1.2rem;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;border:1px solid;}
+.btn-cv-fr{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.3);color:var(--gold2);}
+.btn-cv-fr:hover{background:rgba(201,168,76,0.15);transform:translateY(-1px);color:var(--gold2);}
+.btn-cv-en{background:rgba(99,179,237,0.07);border-color:rgba(99,179,237,0.25);color:#90cdf4;}
+.btn-cv-en:hover{background:rgba(99,179,237,0.14);transform:translateY(-1px);color:#90cdf4;}
+.scroll-hint{position:absolute;bottom:2.5rem;left:4rem;display:flex;align-items:center;gap:0.75rem;font-family:'DM Mono',monospace;font-size:0.63rem;color:var(--muted2);letter-spacing:0.15em;text-transform:uppercase;}
+.scroll-line{width:46px;height:1px;background:linear-gradient(90deg,var(--coral),transparent);animation:sline 2s ease-in-out infinite;}
+@keyframes sline{0%,100%{width:46px;opacity:1}50%{width:18px;opacity:0.3}}
 
-  /* SECTIONS */
-  section { padding: 7rem 4rem; }
-  .section-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--coral);
-    letter-spacing: 0.18em; text-transform: uppercase;
-    margin-bottom: 1.2rem;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .section-tag::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--coral); }
-  h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 400;
-    margin-bottom: 1rem;
-  }
-  .section-intro { color: var(--muted); max-width: 560px; margin-bottom: 3.5rem; }
+/* STATS STRIP */
+.stats-strip{position:relative;z-index:1;background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.8rem 4rem;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:1.2rem;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--cream);display:block;line-height:1;margin-bottom:0.2rem;}
+.stat-num em{color:var(--coral);font-style:normal;}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;}
+.stat-div{width:1px;height:36px;background:var(--border);}
 
-  /* ABOUT */
-  .about-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
-    align-items: start;
-  }
-  .about-text p { color: var(--muted); margin-bottom: 1.2rem; }
-  .about-text strong { color: var(--cream); font-weight: 500; }
-  .skills-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-  }
-  .skill-block {
-    padding: 1.2rem 1.4rem;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-  }
-  .skill-block h4 {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--coral);
-    letter-spacing: 0.12em; text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-  .skill-block p { font-size: 0.82rem; color: var(--muted); }
+/* SECTIONS */
+.sec{position:relative;z-index:1;padding:6rem 4rem;}
+.sec.alt{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.s-label{display:flex;align-items:center;gap:0.6rem;font-family:'DM Mono',monospace;font-size:0.67rem;color:var(--coral);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1rem;}
+.s-num{color:var(--muted2);}
+.s-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:400;margin-bottom:0.9rem;line-height:1.1;}
+.s-title em{font-style:italic;color:var(--coral);}
+.s-intro{color:var(--muted);max-width:560px;margin-bottom:3rem;font-size:0.95rem;}
 
-  /* PROJECTS */
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
-  .project-card {
-    padding: 2rem 2rem 1.6rem;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    transition: border-color 0.25s, transform 0.2s;
-    position: relative; overflow: hidden;
-    text-decoration: none; color: inherit; display: block;
-  }
-  .project-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 2px; background: var(--coral);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.3s;
-  }
-  .project-card:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-3px); }
-  .project-card:hover::before { transform: scaleX(1); }
-  .project-lang {
-    display: inline-flex; gap: 0.4rem; flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-  .tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem; padding: 0.2rem 0.6rem;
-    border-radius: 3px; letter-spacing: 0.05em;
-  }
-  .tag-c { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
-  .tag-py { background: rgba(59,130,246,0.1); color: #7dd3fc; border: 1px solid rgba(59,130,246,0.15); }
-  .tag-sql { background: rgba(168,85,247,0.1); color: #c4b5fd; border: 1px solid rgba(168,85,247,0.15); }
-  .tag-js { background: rgba(234,179,8,0.1); color: #fde047; border: 1px solid rgba(234,179,8,0.15); }
-  .tag-html { background: rgba(249,115,22,0.1); color: #fdba74; border: 1px solid rgba(249,115,22,0.15); }
-  .tag-ml { background: rgba(232,97,74,0.12); color: var(--coral-light); border: 1px solid rgba(232,97,74,0.2); }
-  .project-card h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem; font-weight: 400;
-    margin-bottom: 0.6rem;
-  }
-  .project-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.2rem; }
-  .project-link {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--coral);
-    letter-spacing: 0.08em; text-transform: uppercase;
-    text-decoration: none;
-  }
-  .project-link::after { content: ' →'; }
+/* PILLARS */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.pillar{padding:2rem 1.8rem 2.2rem;background:var(--navy);border:1px solid var(--border);border-radius:6px;position:relative;overflow:hidden;transition:transform 0.25s,border-color 0.25s;}
+.pillar:hover{transform:translateY(-4px);}
+.pbar{position:absolute;top:0;left:0;right:0;height:2px;transform:scaleX(0);transform-origin:left;transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);}
+.pillar:hover .pbar{transform:scaleX(1);}
+.pp .pbar{background:var(--gold);}
+.pp:hover{border-color:rgba(201,168,76,0.3);}
+.pd .pbar{background:var(--coral);}
+.pd:hover{border-color:rgba(232,97,74,0.3);}
+.ps .pbar{background:#90cdf4;}
+.ps:hover{border-color:rgba(144,205,244,0.3);}
+.p-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.1rem;}
+.pp .p-icon{background:rgba(201,168,76,0.1);}
+.pd .p-icon{background:rgba(232,97,74,0.1);}
+.ps .p-icon{background:rgba(144,205,244,0.08);}
+.p-kicker{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.45rem;}
+.pp .p-kicker{color:var(--gold);}
+.pd .p-kicker{color:var(--coral);}
+.ps .p-kicker{color:#90cdf4;}
+.pillar h3{font-family:'DM Serif Display',serif;font-size:1.2rem;font-weight:400;margin-bottom:0.85rem;}
+.p-list{list-style:none;}
+.p-list li{font-size:0.83rem;color:var(--muted);padding:0.28rem 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:flex-start;gap:0.45rem;}
+.p-list li::before{content:'→';color:var(--coral);font-family:'DM Mono',monospace;font-size:0.68rem;margin-top:0.15rem;flex-shrink:0;}
+.p-bgnum{position:absolute;bottom:-0.5rem;right:1rem;font-family:'DM Serif Display',serif;font-size:7rem;font-weight:400;opacity:0.035;line-height:1;pointer-events:none;}
 
-  /* TIMELINE */
-  .timeline { position: relative; padding-left: 2rem; }
-  .timeline::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 1px; background: var(--border);
-  }
-  .timeline-item {
-    position: relative; padding: 0 0 2.4rem 2rem;
-  }
-  .timeline-item::before {
-    content: ''; position: absolute; left: -0.32rem; top: 0.35rem;
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--coral);
-  }
-  .timeline-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--coral);
-    letter-spacing: 0.1em; margin-bottom: 0.3rem;
-  }
-  .timeline-item h3 {
-    font-size: 0.95rem; font-weight: 500; margin-bottom: 0.2rem;
-  }
-  .timeline-item p { font-size: 0.83rem; color: var(--muted); }
+/* TIMELINE */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 3.5rem;}
+.tl{position:relative;padding-left:1.8rem;}
+.tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--coral),rgba(232,97,74,0.08));}
+.ti{position:relative;padding-bottom:3rem;}
+.tdot{position:absolute;left:-2.1rem;top:0.3rem;width:10px;height:10px;border-radius:50%;border:2px solid var(--navy);}
+.dc{background:var(--coral);box-shadow:0 0 8px rgba(232,97,74,0.6);}
+.dg{background:var(--gold);box-shadow:0 0 8px rgba(201,168,76,0.6);}
+.db{background:#63b3ed;box-shadow:0 0 8px rgba(99,179,237,0.5);}
+.dt{background:#4fd1c5;box-shadow:0 0 8px rgba(79,209,197,0.5);}
+.t-date{font-family:'DM Mono',monospace;font-size:0.66rem;color:var(--muted2);letter-spacing:0.08em;margin-bottom:0.25rem;}
+.t-title{font-family:'DM Serif Display',serif;font-size:1.08rem;font-weight:400;margin-bottom:0.12rem;}
+.t-co{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--coral);letter-spacing:0.06em;margin-bottom:0.65rem;}
+.t-desc{font-size:0.86rem;color:var(--muted);margin-bottom:0.7rem;line-height:1.6;}
+.t-mis{list-style:none;margin-bottom:0.8rem;}
+.t-mis li{font-size:0.83rem;color:var(--muted);padding:0.22rem 0;display:flex;gap:0.45rem;align-items:flex-start;}
+.t-mis li::before{content:'▸';color:var(--coral);font-size:0.68rem;flex-shrink:0;margin-top:0.2rem;}
+.t-tags{display:flex;flex-wrap:wrap;gap:0.3rem;}
+.ttag{font-family:'DM Mono',monospace;font-size:0.58rem;padding:2px 7px;border-radius:3px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted2);letter-spacing:0.04em;}
 
-  /* CONTACT */
-  .contact-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
-    align-items: center;
-  }
-  .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
-  .contact-link {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 0.9rem 1.2rem;
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 6px; text-decoration: none; color: var(--cream);
-    transition: border-color 0.2s;
-    font-size: 0.88rem;
-  }
-  .contact-link:hover { border-color: var(--coral); }
-  .contact-link-icon {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem; color: var(--coral);
-    letter-spacing: 0.08em; text-transform: uppercase;
-    min-width: 50px;
-  }
-  .contact-cta h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2rem; font-weight: 400; margin-bottom: 1rem;
-  }
-  .contact-cta p { color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+/* PROJECTS */
+.pf-row{display:flex;gap:0.5rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+.pfbtn{font-family:'DM Mono',monospace;font-size:0.67rem;padding:5px 15px;border:1px solid var(--border);background:transparent;color:var(--muted2);border-radius:3px;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.15s;}
+.pfbtn:hover,.pfbtn.on{border-color:var(--coral);color:var(--coral);background:rgba(232,97,74,0.07);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:1.1rem;}
+.pcard{background:var(--navy2);border:1px solid var(--border);border-radius:6px;padding:1.5rem;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;transition:transform 0.2s,border-color 0.2s;}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--coral),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 0.32s;}
+.pcard:hover{transform:translateY(-3px);border-color:var(--border2);}
+.pcard:hover::before{transform:scaleX(1);}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.85rem;}
+.pemi{font-size:1.5rem;line-height:1;}
+.ptyp{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted2);letter-spacing:0.08em;text-transform:uppercase;text-align:right;}
+.pcard h3{font-family:'DM Serif Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:0.45rem;}
+.pcard p{font-size:0.83rem;color:var(--muted);line-height:1.6;margin-bottom:0.9rem;}
+.pstk{display:flex;flex-wrap:wrap;gap:0.3rem;}
+.stk{font-family:'DM Mono',monospace;font-size:0.58rem;padding:2px 6px;border-radius:3px;letter-spacing:0.04em;}
+.sk-t{background:rgba(79,209,197,0.07);border:1px solid rgba(79,209,197,0.14);color:#81e6d9;}
+.sk-c{background:rgba(232,97,74,0.07);border:1px solid rgba(232,97,74,0.14);color:var(--coral2);}
+.sk-g{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.14);color:var(--gold2);}
+.pinc{border-style:dashed;opacity:0.6;cursor:default;}
+.pinc:hover{transform:none;border-color:var(--border);}
+.pinc::before{display:none;}
+.inc-b{font-family:'DM Mono',monospace;font-size:0.56rem;padding:2px 7px;border-radius:3px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);color:var(--gold);letter-spacing:0.08em;float:right;margin-top:0.2rem;}
 
-  /* FOOTER */
-  footer {
-    padding: 2rem 4rem;
-    border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--muted);
-  }
-  footer span { color: var(--coral); }
+/* SKILLS — compact tag style */
+.skills-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;}
+.sk-group{margin-bottom:1.6rem;}
+.sk-gtitle{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral);margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
+.sk-gtitle::after{content:'';flex:1;height:1px;background:rgba(232,97,74,0.18);}
+.sk-pills{display:flex;flex-wrap:wrap;gap:0.45rem;}
+.skp{font-family:'DM Mono',monospace;font-size:0.7rem;padding:0.3rem 0.75rem;border-radius:3px;letter-spacing:0.04em;transition:transform 0.15s;}
+.skp:hover{transform:translateY(-1px);}
+.skp-c{background:rgba(79,209,197,0.08);border:1px solid rgba(79,209,197,0.18);color:#81e6d9;}
+.skp-g{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.18);color:var(--gold2);}
+.skp-b{background:rgba(99,179,237,0.08);border:1px solid rgba(99,179,237,0.18);color:#90cdf4;}
+.skp-m{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted);}
 
-  /* FADE IN */
-  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
+/* CERTS */
+.certs-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-top:2rem;}
+.cert{padding:0.85rem 1rem;background:var(--navy3);border:1px solid var(--border);border-radius:5px;display:flex;align-items:flex-start;gap:0.65rem;}
+.ibm-badge{width:28px;height:28px;border-radius:5px;background:#1f70c1;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.52rem;color:white;font-weight:500;}
+.cert h4{font-size:0.8rem;font-weight:500;margin-bottom:2px;line-height:1.3;}
+.cert span{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted2);}
 
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
-    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .skills-grid { grid-template-columns: 1fr; }
-  }
+/* FORMATION — compact */
+.edu-list{display:flex;flex-direction:column;gap:1rem;}
+.edu{padding:1.6rem 1.8rem;background:var(--navy);border:1px solid var(--border);border-radius:6px;border-left:2px solid transparent;transition:border-color 0.2s,transform 0.2s;}
+.edu:hover{transform:translateX(3px);}
+.edu.eh{border-left-color:var(--coral);}
+.edu.ep{border-left-color:var(--gold);}
+.edu-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.5rem;}
+.edu-title{font-family:'DM Serif Display',serif;font-size:1rem;font-weight:400;}
+.edu-school{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--coral);letter-spacing:0.06em;}
+.edu.ep .edu-school{color:var(--gold);}
+.edu-date{font-family:'DM Mono',monospace;font-size:0.66rem;color:var(--muted2);white-space:nowrap;}
+.edu-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:0.65rem;}
+.edu-tags{display:flex;flex-wrap:wrap;gap:0.3rem;}
+
+/* CV DOWNLOAD SECTION */
+.cv-section{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3.5rem 4rem;position:relative;z-index:1;}
+.cv-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem;}
+.cv-text h3{font-family:'DM Serif Display',serif;font-size:1.6rem;font-weight:400;margin-bottom:0.4rem;}
+.cv-text h3 em{font-style:italic;color:var(--coral);}
+.cv-text p{font-size:0.88rem;color:var(--muted);max-width:400px;}
+.cv-download-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.dl-btn{display:inline-flex;align-items:center;gap:0.7rem;padding:1rem 1.6rem;border-radius:4px;text-decoration:none;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;border:1px solid;}
+.dl-btn-fr{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.3);color:var(--gold2);}
+.dl-btn-fr:hover{background:rgba(201,168,76,0.16);transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,0.15);color:var(--gold2);}
+.dl-btn-en{background:rgba(99,179,237,0.08);border-color:rgba(99,179,237,0.25);color:#90cdf4;}
+.dl-btn-en:hover{background:rgba(99,179,237,0.16);transform:translateY(-2px);box-shadow:0 6px 20px rgba(99,179,237,0.15);color:#90cdf4;}
+.dl-icon{font-size:1.2rem;}
+.dl-info{text-align:left;}
+.dl-info span{display:block;font-size:0.6rem;color:var(--muted2);letter-spacing:0.05em;margin-top:1px;}
+
+/* CONTACT */
+.contact-big{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:400;line-height:1;margin-bottom:1.4rem;}
+.contact-big em{color:var(--coral);font-style:italic;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.clinks{display:flex;flex-direction:column;gap:0.65rem;}
+.clink{display:flex;align-items:center;gap:1rem;padding:0.95rem 1.2rem;background:var(--navy2);border:1px solid var(--border);border-radius:5px;text-decoration:none;color:var(--cream);transition:border-color 0.2s,transform 0.15s,background 0.2s;}
+.clink:hover{border-color:var(--border2);transform:translateX(4px);background:rgba(232,97,74,0.04);color:var(--cream);}
+.clink-ico{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.95rem;flex-shrink:0;}
+.clink-key{font-family:'DM Mono',monospace;font-size:0.63rem;color:var(--coral);letter-spacing:0.1em;text-transform:uppercase;min-width:52px;}
+.clink-val{font-size:0.86rem;}
+.clink-arr{margin-left:auto;color:var(--muted2);transition:transform 0.2s,color 0.2s;}
+.clink:hover .clink-arr{transform:translateX(3px);color:var(--coral);}
+
+footer{border-top:1px solid var(--border);padding:1.4rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;position:relative;z-index:1;}
+footer p{font-family:'DM Mono',monospace;font-size:0.63rem;color:var(--muted2);letter-spacing:0.08em;}
+footer span{color:var(--coral);}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(26px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.rev.in{opacity:1;transform:translateY(0);}
+.rd1{transition-delay:0.1s;}.rd2{transition-delay:0.2s;}.rd3{transition-delay:0.3s;}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  #hero,.sec,footer,.cv-section,.stats-strip{padding-left:1.5rem;padding-right:1.5rem;}
+  .pillars,.tgrid,.skills-wrap,.contact-grid,.certs-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
+<canvas id="canvas-bg"></canvas>
+
 <nav>
-  <div class="nav-logo">Sara Rebati</div>
+  <div class="nav-logo"><div class="nav-dot"></div>Sara Rebati</div>
   <ul class="nav-links">
-    <li><a href="#about">À propos</a></li>
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#experience">Expérience</a></li>
     <li><a href="#projects">Projets</a></li>
-    <li><a href="#parcours">Parcours</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#cv">CV</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <div class="nav-avail"><div class="nav-avail-dot"></div>Disponible · Sept. 2026</div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<section id="hero">
   <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
+  <div class="glow-a"></div><div class="glow-b"></div>
+  <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
   <div class="hero-content">
-    <div class="hero-tag">Disponible en alternance — Sept. 2026</div>
-    <h1>Sara<br><em>Rebati</em></h1>
-    <p class="hero-sub">
-      Développeuse & future ingénieure ML/IA.<br>
-      Docteure en Pharmacie × Holberton School × Données à impact réel.
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <div class="eyebrow-txt">Holberton School · Spécialisation ML/IA · Alternance 2026</div>
+    </div>
+    <h1>Sara<em>Rebati.</em></h1>
+    <p class="hero-sub">Pharmacienne. Développeuse. Startupeuse.</p>
+    <div class="badges">
+      <span class="badge b-ph">🔬 Docteure en Pharmacie</span>
+      <span class="badge b-dv">💻 Python · C · SQL · Flask</span>
+      <span class="badge b-st">🚀 Co-fondatrice · Incubatrice</span>
+    </div>
+    <p class="hero-desc">
+      Profil hybride rare : la <strong>rigueur d'une scientifique</strong>,
+      l'énergie d'une <strong>buildeuse de startups</strong>,
+      et la technique d'une <strong>développeuse Holberton</strong>.
+      Alternance ML/IA recherchée dès septembre 2026.
     </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn-primary">Voir les projets</a>
-      <a href="https://github.com/SaraEstelle" target="_blank" class="btn-outline">GitHub →</a>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-c">Voir mes projets</a>
+      <a href="https://github.com/SaraEstelle" target="_blank" class="btn-o">GitHub ↗</a>
+      <a href="#contact" class="btn-o">Me contacter</a>
+    </div>
+    <div class="cv-btns">
+      <a href="cv-sara-rebati-fr.pdf" download class="btn-cv btn-cv-fr">📄 Télécharger CV (FR)</a>
+      <a href="cv-sara-rebati-en.pdf" download class="btn-cv btn-cv-en">📄 Download CV (EN)</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip rev">
+  <div class="stat-item"><span class="stat-num"><span class="counter" data-to="5">0</span><em>+</em></span><div class="stat-lbl">Années d'XP</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item"><span class="stat-num"><span class="counter" data-to="50">0</span><em>+</em></span><div class="stat-lbl">Projets accompagnés</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item"><span class="stat-num"><span class="counter" data-to="1200">0</span><em>h</em></span><div class="stat-lbl">Formation code</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item"><span class="stat-num"><span class="counter" data-to="4">0</span></span><div class="stat-lbl">Certifications IBM</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item"><span class="stat-num"><span class="counter" data-to="2">0</span></span><div class="stat-lbl">Structures co-fondées</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="sec alt">
+  <div class="s-label"><span class="s-num">01</span> À propos</div>
+  <h2 class="s-title">Trois mondes,<br><em>une trajectoire.</em></h2>
+  <p class="s-intro">Un parcours atypique qui croise la science, la tech et l'entrepreneuriat.</p>
+  <div class="pillars">
+    <div class="pillar pp rev">
+      <div class="pbar"></div>
+      <div class="p-icon">🔬</div>
+      <div class="p-kicker">Scientifique</div>
+      <h3>Docteure en Pharmacie</h3>
+      <ul class="p-list">
+        <li>Doctorat d'État — Université d'Alger 1, mention Très Honorable</li>
+        <li>Thèse sur les médicaments biosimilaires et exigences réglementaires</li>
+        <li>Production &amp; contrôle qualité (BPF/GMP) chez Frater Razès</li>
+        <li>Énoxaparine Sodique — lot pilote biosimilaire</li>
+        <li>Rigueur expérimentale &amp; raisonnement statistique</li>
+      </ul>
+      <div class="p-bgnum">01</div>
+    </div>
+    <div class="pillar pd rev rd1">
+      <div class="pbar"></div>
+      <div class="p-icon">💻</div>
+      <div class="p-kicker">Développeuse</div>
+      <h3>Holberton School</h3>
+      <ul class="p-list">
+        <li>1 200h intensives de développement full-stack en peer learning</li>
+        <li>Python · C · SQL/MySQL · JavaScript · HTML/CSS · Linux · Git</li>
+        <li>Flask · REST API · OOP · Docker · Jenkins · Ansible</li>
+        <li>AirBnB Clone complet (JWT, SQLAlchemy, RBAC)</li>
+        <li>Spécialisation ML/IA dès septembre 2026 en alternance</li>
+      </ul>
+      <div class="p-bgnum">02</div>
+    </div>
+    <div class="pillar ps rev rd2">
+      <div class="pbar"></div>
+      <div class="p-icon">🚀</div>
+      <div class="p-kicker">Startupeuse</div>
+      <h3>Co-fondatrice &amp; Incubatrice</h3>
+      <ul class="p-list">
+        <li>Co-fondatrice de 2 structures d'innovation en Algérie</li>
+        <li>Manager du 1er incubateur féminin d'Algérie (WOMWORK)</li>
+        <li>50+ projets web &amp; e-commerce accompagnés</li>
+        <li>Partenariats : Institut Français, PNUD, Ambassade de France</li>
+        <li>Speaker BPI France · Mentor Women in Africa</li>
+      </ul>
+      <div class="p-bgnum">03</div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-tag">À propos</div>
-  <div class="about-grid fade-in">
-    <div class="about-text">
-      <h2>Scientifique.<br>Développeuse.<br><em style="color:var(--coral); font-family:'DM Serif Display',serif; font-style:italic;">Future ML engineer.</em></h2>
-      <p>
-        Profil hybride rare : <strong>Docteure en Pharmacie</strong> (Université d'Alger 1, mention Très Honorable),
-        reconvertie en développement logiciel intensif chez <strong>Holberton School</strong>,
-        avec une spécialisation Machine Learning & IA qui démarre en septembre 2026.
-      </p>
-      <p>
-        Ancienne co-fondatrice de deux structures d'innovation et cheffe de projets digitaux,
-        j'apporte une capacité d'analyse de données, une rigueur scientifique et une vision
-        métier que peu de profils techniques combinaient.
-      </p>
-      <p>
-        Je cherche une alternance ML/IA en région <strong>Rhône-Alpes / Haute-Savoie</strong>
-        pour concevoir des modèles fiables à fort impact opérationnel.
-      </p>
+<!-- EXPERIENCE -->
+<section id="experience" class="sec">
+  <div class="s-label"><span class="s-num">02</span> Expérience</div>
+  <h2 class="s-title">Ce que j'ai <em>construit.</em></h2>
+  <div class="tgrid">
+    <div class="tl">
+      <div class="ti rev">
+        <div class="tdot dc"></div>
+        <div class="t-date">Oct. 2025 → Juil. 2026</div>
+        <div class="t-title">Projets Holberton School</div>
+        <div class="t-co">💻 Formation Full-Stack · Thonon-les-Bains</div>
+        <div class="t-desc">1 200h couvrant la chaîne complète du développement logiciel — du bas niveau système au web full-stack.</div>
+        <ul class="t-mis">
+          <li><strong>AirBnB Clone (HBNB)</strong> — OOP Python, MySQL, API RESTful Flask, JWT, RBAC, SQLAlchemy, interface JS dynamique.</li>
+          <li><strong>FLUXIVOLT</strong> — Automatisation pipeline commercial, BDD clients structurée, module VEE de génération de devis.</li>
+          <li><strong>Simple Shell (C)</strong> — Interpréteur UNIX : commandes, PATH, variables d'env., fork/exec/wait, signaux système.</li>
+          <li><strong>ft_printf (C)</strong> — Réimplémentation complète : %c %s %d %i %u %o %x %X, va_list, cas limites.</li>
+        </ul>
+        <div class="t-tags"><span class="ttag">Python</span><span class="ttag">C</span><span class="ttag">Flask</span><span class="ttag">MySQL</span><span class="ttag">SQLAlchemy</span><span class="ttag">JWT</span><span class="ttag">Docker</span><span class="ttag">Linux</span></div>
+      </div>
+      <div class="ti rev">
+        <div class="tdot db"></div>
+        <div class="t-date">Sept. 2018 → Avr. 2019</div>
+        <div class="t-title">Chargée de Missions Production &amp; Qualité</div>
+        <div class="t-co">🧪 FRATER RAZES · Industrie Pharmaceutique · Algérie</div>
+        <div class="t-desc">Production et contrôle qualité — formes injectables et biosimilaires selon BPF/GMP.</div>
+        <ul class="t-mis">
+          <li>Validation et contrôle qualité de formes injectables et biosimilaires (BPF/GMP).</li>
+          <li>Rédaction des cahiers des charges et protocoles de validation des lignes de conditionnement.</li>
+          <li>Préparation et participation aux audits qualité — gestion documentaire réglementaire.</li>
+          <li>Fabrication d'un lot pilote d'<strong>Énoxaparine Sodique</strong> (HBPM biosimilaire).</li>
+        </ul>
+        <div class="t-tags"><span class="ttag">BPF/GMP</span><span class="ttag">Biosimilaires</span><span class="ttag">Contrôle qualité</span><span class="ttag">Validation</span></div>
+      </div>
     </div>
-    <div>
-      <div class="skills-grid">
-        <div class="skill-block">
-          <h4>Langages</h4>
-          <p>Python · C · JavaScript · SQL · HTML5 · CSS3 · Shell</p>
-        </div>
-        <div class="skill-block">
-          <h4>Data & ML</h4>
-          <p>Pandas · NumPy · scikit-learn · REST APIs · SQLite/MySQL</p>
-        </div>
-        <div class="skill-block">
-          <h4>DevOps</h4>
-          <p>Docker · Jenkins · Ansible · Git · Linux · GitHub</p>
-        </div>
-        <div class="skill-block">
-          <h4>Architecture</h4>
-          <p>OOP · MVC · REST · Flask · Design patterns · RBAC</p>
-        </div>
-        <div class="skill-block">
-          <h4>Méthodes</h4>
-          <p>Agile · Kanban · TDD · Peer learning · Code review</p>
-        </div>
-        <div class="skill-block">
-          <h4>Sciences</h4>
-          <p>Statistiques · Validation · Rigueur expérimentale · Pharma</p>
-        </div>
+    <div class="tl">
+      <div class="ti rev">
+        <div class="tdot dg"></div>
+        <div class="t-date">Jan. 2024 → Juil. 2025</div>
+        <div class="t-title">Manager d'Incubateur · Formatrice · Consultante</div>
+        <div class="t-co">🌍 WOMWORK · 1er Incubateur Féminin d'Algérie &amp; d'Afrique</div>
+        <div class="t-desc">Pilotage opérationnel du 1er incubateur féminin d'Algérie — accompagnement de porteurs de projets et partenariats institutionnels.</div>
+        <ul class="t-mis">
+          <li>Conception &amp; animation de formations en <strong>marketing digital, design thinking</strong> et communication.</li>
+          <li>Accompagnement de <strong>50+ projets web &amp; e-commerce</strong> : audit, stratégie, conseil technique, mise en réseau.</li>
+          <li>Pilotage <strong>Mawahub × WomWork</strong> avec l'Institut Français d'Alger et l'Ambassade de France (juin 2024).</li>
+          <li>Projet <strong>PNUD Algérie</strong> : digitalisation de TPE dirigées par des femmes (déc. 2023).</li>
+          <li>Membre du jury : <strong>SPRINT, HEC Excellence Camp, RESTART Ooredoo.</strong></li>
+        </ul>
+        <div class="t-tags"><span class="ttag">Incubation</span><span class="ttag">Formation</span><span class="ttag">Gestion de projet</span><span class="ttag">PNUD</span><span class="ttag">Agile</span></div>
+      </div>
+      <div class="ti rev">
+        <div class="tdot dt"></div>
+        <div class="t-date">Jan. 2024 → Juil. 2025</div>
+        <div class="t-title">Manager &amp; Cheffe de Projet Digital</div>
+        <div class="t-co">📱 CASA SWITCH · Application Mobile · Algérie</div>
+        <div class="t-desc">Pilotage complet du développement d'une application mobile — produit, tech, UX et marketing.</div>
+        <ul class="t-mis">
+          <li>Rédaction du <strong>cahier des charges</strong> fonctionnel et technique, priorisation des user stories, définition des KPIs.</li>
+          <li>Coordination des équipes dev : suivi des sprints, gestion des tickets, organisation des recettes techniques.</li>
+          <li>Contribution aux choix <strong>UX/UI</strong> : wireframes, parcours utilisateur, tests usabilité.</li>
+          <li>Stratégie de communication digitale : réseaux sociaux, branding, campagnes d'acquisition.</li>
+        </ul>
+        <div class="t-tags"><span class="ttag">Product Management</span><span class="ttag">Agile</span><span class="ttag">UX/UI</span><span class="ttag">KPIs</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" style="background: rgba(255,255,255,0.01); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section-tag">Projets</div>
-  <h2>Ce que j'ai construit.</h2>
-  <p class="section-intro">Projets réalisés en formation Holberton et en autonomie, couvrant systèmes, web, data et automatisation.</p>
-  <div class="projects-grid fade-in">
-
-    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
-      <div class="project-lang">
-        <span class="tag tag-py">Python</span>
-        <span class="tag tag-sql">SQL</span>
-        <span class="tag tag-html">Flask</span>
-      </div>
-      <h3>AirBnB Clone (HBNB)</h3>
-      <p>Reproduction complète du fonctionnement d'AirBnB : modèle de données OOP, stockage fichier + MySQL, API RESTful Flask, interface web dynamique via JavaScript.</p>
-      <span class="project-link">Voir sur GitHub</span>
+<section id="projects" class="sec alt">
+  <div class="s-label"><span class="s-num">03</span> Projets</div>
+  <h2 class="s-title">Code mis en <em>production.</em></h2>
+  <div class="pf-row">
+    <button class="pfbtn on" data-f="all">Tous</button>
+    <button class="pfbtn" data-f="holberton">Holberton</button>
+    <button class="pfbtn" data-f="pharma">Pharma</button>
+    <button class="pfbtn" data-f="data">Data / Pipeline</button>
+    <button class="pfbtn" data-f="system">Système C</button>
+  </div>
+  <div class="pgrid">
+    <a class="pcard rev" href="https://github.com/SaraEstelle" target="_blank" data-c="holberton">
+      <div class="ph"><div class="pemi">🏠</div><div class="ptyp">Python · Flask · SQL</div></div>
+      <h3>AirBnB Clone — HBNB</h3>
+      <p>Modèle OOP Python, stockage fichier + MySQL, API RESTful Flask, JWT, RBAC, SQLAlchemy, interface JS dynamique. Projet full-stack complet en équipe.</p>
+      <div class="pstk"><span class="stk sk-t">Python</span><span class="stk sk-t">Flask</span><span class="stk sk-t">MySQL</span><span class="stk sk-c">JWT</span><span class="stk sk-t">SQLAlchemy</span><span class="stk sk-t">JS</span></div>
     </a>
-
-    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
-      <div class="project-lang">
-        <span class="tag tag-c">C</span>
-      </div>
+    <a class="pcard rev rd1" href="https://github.com/SaraEstelle" target="_blank" data-c="data">
+      <div class="ph"><div class="pemi">⚡</div><div class="ptyp">Python · SQL · Automation</div></div>
+      <h3>Pipeline Commercial — FLUXIVOLT</h3>
+      <p>Automatisation des séquences de prospection e-mail, BDD prospects structurée, module de génération et suivi de devis en ligne (VEE).</p>
+      <div class="pstk"><span class="stk sk-t">Python</span><span class="stk sk-t">SQL</span><span class="stk sk-c">Pipeline</span><span class="stk sk-c">Automation</span></div>
+    </a>
+    <a class="pcard rev rd2" href="https://github.com/SaraEstelle" target="_blank" data-c="system">
+      <div class="ph"><div class="pemi">🖥️</div><div class="ptyp">C · Système UNIX</div></div>
       <h3>Simple Shell</h3>
-      <p>Interpréteur de commandes UNIX en C. Gestion des commandes, chemins PATH, variables d'environnement, signaux système et gestion des erreurs.</p>
-      <span class="project-link">Voir sur GitHub</span>
+      <p>Interpréteur de commandes UNIX en C : gestion des commandes, PATH, variables d'environnement, fork/exec/wait, signaux et gestion des erreurs.</p>
+      <div class="pstk"><span class="stk sk-g">C</span><span class="stk sk-g">Linux</span><span class="stk sk-g">Fork/Exec</span><span class="stk sk-g">Signaux</span></div>
     </a>
-
-    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
-      <div class="project-lang">
-        <span class="tag tag-c">C</span>
-      </div>
-      <h3>Printf — ft_printf</h3>
-      <p>Réimplémentation de la fonction printf standard en C. Gestion des spécificateurs %c %s %d %i %u %o %x %X, arguments variadiques et cas limites.</p>
-      <span class="project-link">Voir sur GitHub</span>
+    <a class="pcard rev" href="https://github.com/SaraEstelle" target="_blank" data-c="system">
+      <div class="ph"><div class="pemi">🖨️</div><div class="ptyp">C · Bas niveau</div></div>
+      <h3>ft_printf</h3>
+      <p>Réimplémentation complète de printf : spécificateurs %c %s %d %i %u %o %x %X, va_list, gestion des cas limites et des drapeaux.</p>
+      <div class="pstk"><span class="stk sk-g">C</span><span class="stk sk-g">va_list</span><span class="stk sk-g">Bas niveau</span></div>
     </a>
-
-    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
-      <div class="project-lang">
-        <span class="tag tag-py">Python</span>
-        <span class="tag tag-sql">SQL</span>
-      </div>
-      <h3>FLUXIVOLT — Automatisation commerciale</h3>
-      <p>Pipeline d'automatisation de la prospection e-mail, base de données clients structurée et module de génération de devis en ligne (VEE).</p>
-      <span class="project-link">Voir sur GitHub</span>
+    <a class="pcard rev rd1" href="#" data-c="pharma">
+      <div class="ph"><div class="pemi">💊</div><div class="ptyp">HTML · CSS · JS</div></div>
+      <h3>PillBox</h3>
+      <p>App web de suivi de médicaments : ajout/suppression, marquage des prises, statistiques du jour. Design mobile-first, localStorage.</p>
+      <div class="pstk"><span class="stk sk-t">HTML5</span><span class="stk sk-t">CSS3</span><span class="stk sk-t">JS</span><span class="stk sk-c">Pharma</span></div>
     </a>
-
-    <a class="project-card" href="https://github.com/SaraEstelle" target="_blank">
-      <div class="project-lang">
-        <span class="tag tag-html">HTML5</span>
-        <span class="tag tag-html">CSS3</span>
-        <span class="tag tag-js">JS</span>
-      </div>
-      <h3>Le Café Intergalactique des Castors</h3>
-      <p>Site web créatif : intégration responsive, animations CSS, structuration sémantique et bonnes pratiques d'accessibilité web.</p>
-      <span class="project-link">Voir sur GitHub</span>
+    <a class="pcard rev rd2" href="#" data-c="pharma">
+      <div class="ph"><div class="pemi">🧬</div><div class="ptyp">HTML · CSS · JS</div></div>
+      <h3>MedQuiz</h3>
+      <p>Quiz de pharmacologie : 4 catégories, 3 niveaux de difficulté, timer, explications médicales. 30+ questions réelles.</p>
+      <div class="pstk"><span class="stk sk-t">HTML5</span><span class="stk sk-t">CSS3</span><span class="stk sk-t">JS</span><span class="stk sk-c">Pharmacologie</span></div>
     </a>
-
-    <div class="project-card" style="border-style: dashed; cursor: default;">
-      <div class="project-lang">
-        <span class="tag tag-ml">ML</span>
-        <span class="tag tag-py">Python</span>
-        <span class="tag tag-sql">SQL</span>
-      </div>
-      <h3>PharmaInsight <span style="font-size:0.75rem; color: var(--muted); font-family:'DM Mono',monospace;">en cours</span></h3>
-      <p>Analyse de données médicales avec Python OOP + pandas + SQLite. Classification de patients, visualisation statistique. Pont entre la pharmacie et le ML.</p>
-      <span class="project-link" style="color: var(--muted);">Bientôt disponible</span>
+    <div class="pcard pinc rev" data-c="data">
+      <div class="ph"><div class="pemi">🤖</div><span class="inc-b">Sept. 2026</span></div>
+      <h3>PharmaInsight — ML</h3>
+      <p>Classification de données médicales avec Python + scikit-learn + pandas. Pipeline ML complet avec visualisations statistiques.</p>
+      <div class="pstk"><span class="stk sk-c">Python</span><span class="stk sk-c">pandas</span><span class="stk sk-c">scikit-learn</span><span class="stk sk-g">ML</span></div>
     </div>
-
   </div>
 </section>
 
-<!-- PARCOURS -->
-<section id="parcours">
-  <div class="section-tag">Parcours</div>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;" class="fade-in">
+<!-- SKILLS -->
+<section id="skills" class="sec">
+  <div class="s-label"><span class="s-num">04</span> Compétences</div>
+  <h2 class="s-title">Mon <em>arsenal.</em></h2>
+  <div class="skills-wrap">
     <div>
-      <h2>Formation</h2>
-      <br>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">Sept. 2026 → 2027</div>
-          <h3>Spécialisation ML & IA — Holberton School</h3>
-          <p>Maths (algèbre, probabilités), Supervised/Unsupervised/Reinforcement Learning, NLP, CNN, MLOps, Data Pipeline, GCP.</p>
+      <div class="sk-group">
+        <div class="sk-gtitle">Langages</div>
+        <div class="sk-pills">
+          <span class="skp skp-c">Python</span><span class="skp skp-c">C</span>
+          <span class="skp skp-c">JavaScript</span><span class="skp skp-c">SQL / MySQL</span>
+          <span class="skp skp-c">HTML5</span><span class="skp skp-c">CSS3</span>
+          <span class="skp skp-c">Shell / Bash</span>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-date">Oct. 2025 → Juil. 2026</div>
-          <h3>Développeur Web & Mobile RNCP Niv.5 — Holberton School</h3>
-          <p>1200h : Python, C, SQL, JavaScript, HTML/CSS, Linux, Docker, Jenkins, Ansible.</p>
+      </div>
+      <div class="sk-group">
+        <div class="sk-gtitle">Frameworks &amp; Outils</div>
+        <div class="sk-pills">
+          <span class="skp skp-c">Flask</span><span class="skp skp-c">SQLAlchemy</span>
+          <span class="skp skp-c">REST API</span><span class="skp skp-c">JWT</span>
+          <span class="skp skp-c">OOP</span><span class="skp skp-c">Bootstrap</span>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2013 → 2018</div>
-          <h3>Doctorat d'État en Pharmacie — Université d'Alger 1</h3>
-          <p>Mention Très Honorable. Thèse : médicaments biosimilaires, exigences réglementaires de production.</p>
+      </div>
+      <div class="sk-group">
+        <div class="sk-gtitle">DevOps &amp; Infra</div>
+        <div class="sk-pills">
+          <span class="skp skp-c">Docker</span><span class="skp skp-c">Linux</span>
+          <span class="skp skp-c">Git / GitHub</span><span class="skp skp-c">Jenkins</span>
+          <span class="skp skp-c">Ansible</span>
+        </div>
+      </div>
+      <div class="sk-group">
+        <div class="sk-gtitle" style="color:#90cdf4">À venir — ML/IA</div>
+        <div class="sk-pills">
+          <span class="skp skp-b">scikit-learn</span><span class="skp skp-b">TensorFlow</span>
+          <span class="skp skp-b">Pandas</span><span class="skp skp-b">NumPy</span>
+          <span class="skp skp-b">MLOps</span><span class="skp skp-b">GCP</span>
+          <span class="skp skp-b">CNN</span><span class="skp skp-b">NLP</span>
         </div>
       </div>
     </div>
     <div>
-      <h2>Expérience</h2>
-      <br>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">2024 → 2025</div>
-          <h3>Manager & Cheffe de Projet Digital — CASA SWITCH</h3>
-          <p>Pilotage d'une application mobile, stratégie digitale, suivi KPI.</p>
+      <div class="sk-group">
+        <div class="sk-gtitle" style="color:#90cdf4">Gestion de projet</div>
+        <div class="sk-pills">
+          <span class="skp skp-b">Agile</span><span class="skp skp-b">Kanban</span>
+          <span class="skp skp-b">KPIs</span><span class="skp skp-b">Product Management</span>
+          <span class="skp skp-b">Cahier des charges</span>
+          <span class="skp skp-b">Reporting</span>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2024 → 2025</div>
-          <h3>Manager d'Incubateur — WOMWORK</h3>
-          <p>1er incubateur féminin d'Algérie. Formations, 50+ projets accompagnés, coopération Institut Français / PNUD.</p>
+      </div>
+      <div class="sk-group">
+        <div class="sk-gtitle" style="color:var(--gold)">Sciences &amp; Pharma</div>
+        <div class="sk-pills">
+          <span class="skp skp-g">Pharmacologie</span><span class="skp skp-g">BPF/GMP</span>
+          <span class="skp skp-g">Biosimilaires</span>
+          <span class="skp skp-g">Contrôle qualité</span>
+          <span class="skp skp-g">Validation</span>
+          <span class="skp skp-g">Réglementation EMA/FDA</span>
+          <span class="skp skp-g">Analyse statistique</span>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2019 → 2025</div>
-          <h3>Responsable Projets — THE ANNEX</h3>
-          <p>Projets web et digitaux pour startups et PME.</p>
+      </div>
+      <div class="sk-group">
+        <div class="sk-gtitle" style="color:var(--muted)">Langues</div>
+        <div class="sk-pills">
+          <span class="skp skp-m">Français — DALF C1</span>
+          <span class="skp skp-m">Anglais — B2 Pro</span>
+          <span class="skp skp-m">Arabe — Natif</span>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2018 → 2019</div>
-          <h3>Chargée Qualité — FRATER RAZES</h3>
-          <p>Production pharmaceutique, contrôle qualité, biosimilaires.</p>
-        </div>
+      </div>
+      <div class="certs-grid">
+        <div class="cert"><div class="ibm-badge">IBM</div><div><h4>SQL &amp; Relational Databases</h4><span>IBM Skills Build · Fév. 2026</span></div></div>
+        <div class="cert"><div class="ibm-badge">IBM</div><div><h4>Project Management</h4><span>IBM Skills Build · Fév. 2026</span></div></div>
+        <div class="cert"><div class="ibm-badge">IBM</div><div><h4>Agile Explorer</h4><span>IBM Skills Build · Déc. 2025</span></div></div>
+        <div class="cert"><div class="ibm-badge">IBM</div><div><h4>Introduction to Open Source</h4><span>IBM Skills Build · Nov. 2025</span></div></div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- FORMATION -->
+<section id="formation" class="sec alt">
+  <div class="s-label"><span class="s-num">05</span> Formation</div>
+  <h2 class="s-title">Parcours <em>académique.</em></h2>
+  <div class="edu-list">
+    <div class="edu eh rev">
+      <div class="edu-top">
+        <div>
+          <div class="edu-title">Spécialisation Machine Learning &amp; IA &nbsp;<span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gold);background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:2px 8px;border-radius:3px">À venir</span></div>
+          <div class="edu-school">🎓 Holberton School · Thonon-les-Bains · En alternance</div>
+        </div>
+        <div class="edu-date">Sept. 2026 → 2027</div>
+      </div>
+      <div class="edu-desc">Maths · Supervised Learning (CNN, RNN, NLP, Object Detection) · Unsupervised Learning · Reinforcement Learning · The Pipeline (Pandas, GCP, Hadoop, MLOps) · Portfolio Project ML.</div>
+      <div class="edu-tags"><span class="stk sk-c">scikit-learn</span><span class="stk sk-c">TensorFlow</span><span class="stk sk-c">Pandas</span><span class="stk sk-c">GCP</span><span class="stk sk-t">CNN</span><span class="stk sk-t">RNN</span><span class="stk sk-t">NLP</span></div>
+    </div>
+    <div class="edu eh rev">
+      <div class="edu-top">
+        <div>
+          <div class="edu-title">Titre Professionnel · Développeur Web &amp; Web Mobile — RNCP Niveau 5</div>
+          <div class="edu-school">🎓 Holberton School · Thonon-les-Bains, France</div>
+        </div>
+        <div class="edu-date">Oct. 2025 → Juil. 2026</div>
+      </div>
+      <div class="edu-desc">1 200h intensives en peer learning · Python · C · SQL · JS · HTML/CSS · Linux · Docker · Jenkins · Ansible · Sécurité applicative · Modélisation des données · Tests.</div>
+      <div class="edu-tags"><span class="stk sk-g">C</span><span class="stk sk-t">Python</span><span class="stk sk-t">Flask</span><span class="stk sk-t">MySQL</span><span class="stk sk-t">Docker</span><span class="stk sk-t">Jenkins</span></div>
+    </div>
+    <div class="edu ep rev">
+      <div class="edu-top">
+        <div>
+          <div class="edu-title">Doctorat d'État en Pharmacie · Mention Très Honorable</div>
+          <div class="edu-school">🔬 Université d'Alger 1 · Faculté de Pharmacie · Alger, Algérie</div>
+        </div>
+        <div class="edu-date">2013 → 2018</div>
+      </div>
+      <div class="edu-desc"><em>Thèse : « Médicaments issus de biotechnologies : exigences techniques, réglementaires et administratives pour la mise en place d'une unité de production. »</em> — Recherche scientifique · Validation expérimentale · Réglementation BPF / EMA / FDA.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CV DOWNLOAD -->
+<div id="cv" class="cv-section rev">
+  <div class="cv-inner">
+    <div class="cv-text">
+      <h3>Télécharger mon <em>CV</em></h3>
+      <p>Disponible en français et en anglais · Mis à jour avril 2026 · Alternance ML/IA — Septembre 2026</p>
+    </div>
+    <div class="cv-download-btns">
+      <a href="cv-sara-rebati-fr.pdf" download="CV_Sara_Rebati_FR.pdf" class="dl-btn dl-btn-fr">
+        <span class="dl-icon">📄</span>
+        <div class="dl-info">CV Français<span>PDF · Alternance ML/IA</span></div>
+      </a>
+      <a href="cv-sara-rebati-en.pdf" download="CV_Sara_Rebati_EN.pdf" class="dl-btn dl-btn-en">
+        <span class="dl-icon">📄</span>
+        <div class="dl-info">CV English<span>PDF · ML/AI Apprenticeship</span></div>
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- CONTACT -->
-<section id="contact" style="background: rgba(255,255,255,0.01); border-top: 1px solid var(--border);">
-  <div class="section-tag">Contact</div>
-  <div class="contact-grid fade-in">
-    <div class="contact-cta">
-      <h3>Travaillons<br><em style="color:var(--coral); font-family:'DM Serif Display',serif; font-style:italic;">ensemble.</em></h3>
-      <p>Je suis disponible en alternance ML/IA à partir de septembre 2026, en région Haute-Savoie / Rhône-Alpes. Ouverte à la discussion.</p>
-      <a href="mailto:sararebati94@gmail.com" class="btn-primary">Envoyer un email</a>
+<section id="contact" class="sec">
+  <div class="s-label"><span class="s-num">06</span> Contact</div>
+  <div class="contact-grid">
+    <div class="rev">
+      <div class="contact-big">Parlons<br><em>ensemble.</em></div>
+      <p style="color:var(--muted);max-width:380px;margin-bottom:2rem;font-size:0.95rem">
+        Disponible en alternance ML/IA à partir de <strong style="color:var(--cream)">septembre 2026</strong> en région <strong style="color:var(--cream)">Haute-Savoie / Rhône-Alpes</strong>.
+      </p>
+      <a href="mailto:sararebati94@gmail.com" class="btn-c">Envoyer un email ↗</a>
     </div>
-    <div class="contact-links">
-      <a href="mailto:sararebati94@gmail.com" class="contact-link">
-        <span class="contact-link-icon">Email</span>
-        sararebati94@gmail.com
+    <div class="clinks rev rd1">
+      <a href="mailto:sararebati94@gmail.com" class="clink">
+        <div class="clink-ico" style="background:rgba(232,97,74,0.1)">📧</div>
+        <span class="clink-key">Email</span>
+        <span class="clink-val">sararebati94@gmail.com</span>
+        <span class="clink-arr">→</span>
       </a>
-      <a href="tel:+33758369876" class="contact-link">
-        <span class="contact-link-icon">Tél.</span>
-        +33 7 58 36 98 76
+      <a href="tel:+33758369876" class="clink">
+        <div class="clink-ico" style="background:rgba(201,168,76,0.1)">📞</div>
+        <span class="clink-key">Tél.</span>
+        <span class="clink-val">+33 7 58 36 98 76</span>
+        <span class="clink-arr">→</span>
       </a>
-      <a href="https://github.com/SaraEstelle" target="_blank" class="contact-link">
-        <span class="contact-link-icon">GitHub</span>
-        github.com/SaraEstelle
+      <a href="https://github.com/SaraEstelle" target="_blank" class="clink">
+        <div class="clink-ico" style="background:rgba(255,255,255,0.06)">⌨️</div>
+        <span class="clink-key">GitHub</span>
+        <span class="clink-val">github.com/SaraEstelle</span>
+        <span class="clink-arr">→</span>
       </a>
-      <a href="https://linkedin.com/in/sararebati" target="_blank" class="contact-link">
-        <span class="contact-link-icon">LinkedIn</span>
-        linkedin.com/in/sararebati
+      <a href="https://linkedin.com/in/sararebati" target="_blank" class="clink">
+        <div class="clink-ico" style="background:rgba(10,102,194,0.12)">💼</div>
+        <span class="clink-key">LinkedIn</span>
+        <span class="clink-val">linkedin.com/in/sararebati</span>
+        <span class="clink-arr">→</span>
       </a>
     </div>
   </div>
 </section>
 
 <footer>
-  <span>Sara Rebati</span>
-  <span>Thonon-les-Bains, France — <span style="color:var(--coral)">Disponible Sept. 2026</span></span>
+  <p>© 2026 <span>Sara Rebati</span> · Thonon-les-Bains, France</p>
+  <p>HTML · CSS · JS — <span>0 template</span></p>
 </footer>
 
 <script>
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+// CANVAS PARTICLES
+const C = document.getElementById('canvas-bg');
+const cx = C.getContext('2d');
+let W,H,pts=[];
+function rsz(){W=C.width=innerWidth;H=C.height=innerHeight;}
+rsz(); addEventListener('resize',rsz);
+for(let i=0;i<50;i++) pts.push({x:Math.random()*2000,y:Math.random()*1200,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.4+.4,c:Math.random()>.6?'232,97,74':'201,168,76'});
+(function draw(){
+  cx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    cx.beginPath(); cx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    cx.fillStyle=`rgba(${p.c},.45)`; cx.fill();
+  });
+  pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+    const d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<110){cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.strokeStyle=`rgba(232,97,74,${.07*(1-d/110)})`;cx.lineWidth=.5;cx.stroke();}
+  }));
+  requestAnimationFrame(draw);
+})();
+
+// REVEAL
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');}),{threshold:.08});
+document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+
+// COUNTERS
+const co=new IntersectionObserver(e=>e.forEach(x=>{
+  if(x.isIntersecting) x.target.querySelectorAll('.counter').forEach(el=>{
+    const t=+el.dataset.to,big=t>100;
+    let n=0,id=setInterval(()=>{n=Math.min(n+(big?20:1),t);el.textContent=n;if(n>=t)clearInterval(id);},big?16:70);
+  });
+}),{threshold:.5});
+document.querySelectorAll('.stats-strip').forEach(el=>co.observe(el));
+
+// PROJECT FILTERS
+document.querySelectorAll('.pfbtn').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.pfbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const f=btn.dataset.f;
+  document.querySelectorAll('.pcard').forEach(c=>{
+    const show=f==='all'||c.dataset.c===f;
+    c.style.cssText=`opacity:${show?1:.2};transform:${show?'':'scale(.97)'};pointer-events:${show?'':'none'};transition:all .3s`;
+  });
+}));
+
+// NAV SCROLL COMPACT
+const nv=document.querySelector('nav');
+addEventListener('scroll',()=>{nv.style.padding=scrollY>60?'.7rem 4rem':'1.1rem 4rem';},{passive:true});
 </script>
 </body>
 </html>
